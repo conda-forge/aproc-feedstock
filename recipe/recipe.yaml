@@ -1,0 +1,50 @@
+schema_version: 1
+
+context:
+  name: aproc
+  version: "0.0.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/aproc-${{ version }}.tar.gz
+  sha256: c20d72806c70b0fca85d62b2cdb9a38fc3270b5e378f4795535ebef013d3904d
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - aproc
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  license: BSD-3-Clause
+  license_file: LICENSE
+  summary: aproc - for asynchronous multiprocessing
+  description: |
+    aproc extends the multiprocessing library by combining a
+    multiprocessing pool with a multiprocessing queue.
+  homepage: https://github.com/pyiron/aproc
+  repository: https://github.com/pyiron/aproc
+  documentation: https://github.com/pyiron/aproc
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
